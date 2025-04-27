@@ -13,6 +13,8 @@ class TodoRepository {
     return _firestore
         .collection('todos')
         .where('ownerId', isEqualTo: userId)
+        .where('sharedWith', arrayContains: userId)
+        .orderBy('timestamp', descending: true)
         .snapshots()
         .map((todosQuerySnapshot) {
       return todosQuerySnapshot.docs.map((doc) {

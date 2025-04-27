@@ -1,4 +1,4 @@
-name: Android CI
+name: Android Release CI
 
 on:
   push:
@@ -23,17 +23,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'  
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
-      - name: Upload Debug APK
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: release-apk
+          path: app/build/outputs/apk/release/app-release.apk

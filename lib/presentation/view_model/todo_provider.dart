@@ -12,6 +12,7 @@ class TodoProvider extends ChangeNotifier {
   final TodoRepository _todoRepository;
   final AuthProvider _authProvider;
   List<UserDetail> searchedUsers = [];
+  UserDetail? ownerDetail;
   List<UserDetail> sharedUsers = [];
   bool isLoading = false;
   void setLoading(bool value) {
@@ -19,8 +20,10 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<List<Todo>> getTodos() {
-    return _todoRepository.getUserTodosRealTime(_authProvider.userDetail!.uid!);
+  Stream<List<Todo>> getTodos({bool isShared = false}) {
+    return isShared
+        ? _todoRepository.getSharedTodosRealTime(_authProvider.userDetail!.uid!)
+        : _todoRepository.getUserTodosRealTime(_authProvider.userDetail!.uid!);
   }
 
   Stream<Todo> getTodoByIdRealtime(String todoId) {
@@ -135,6 +138,19 @@ class TodoProvider extends ChangeNotifier {
         sharedUsers = r;
         setLoading(false);
         return Right(r);
+      });
+    });
+  }
+
+  Future<Either<String, UserDetail>> getOwnerDetail(String userId) {
+    ownerDetail = null;
+    return _todoRepository.getUsersByIds([userId]).then((result) {
+      return result.fold((l) {
+        ownerDetail = null;
+        return Left(l);
+      }, (r) {
+        ownerDetail = r[0];
+        return Right(r[0]);
       });
     });
   }

@@ -22,6 +22,8 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoListScreenState extends State<TodoListScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isShared = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,25 @@ class _TodoListScreenState extends State<TodoListScreen> {
                   radius: BorderRadius.circular(50.r),
                 ),
               ),
-              Spacer(),
+              ListTile(
+                title: Text('My Todos'),
+                onTap: () {
+                  setState(() {
+                    isShared = false;
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              ListTile(
+                title: Text('Shared Todos'),
+                onTap: () {
+                  setState(() {
+                    isShared = true;
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              Divider(),
               ListTile(
                 leading: Icon(Icons.logout, color: AppColors.errorDefault),
                 title: Text('Log Out'),
@@ -73,7 +93,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          //2
           SliverAppBar(
             expandedHeight: 150.h,
             pinned: true,
@@ -84,13 +103,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
               },
             ),
             flexibleSpace: FlexibleSpaceBar(
-              title: CustomText('Todo List'),
+              title: CustomText(isShared ? 'Shared Todos' : 'My Todos'),
             ),
           ),
-          //3
           Consumer<TodoProvider>(builder: (context, provider, child) {
             return StreamBuilder<List<Todo>>(
-                stream: provider.getTodos(),
+                stream: provider.getTodos(isShared: isShared),
                 builder: (context, snapshot) {
                   if (snapshot.data?.isEmpty ?? true) {
                     return const SliverToBoxAdapter(

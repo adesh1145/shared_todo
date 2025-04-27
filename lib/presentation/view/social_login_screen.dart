@@ -49,46 +49,47 @@ class _SocialLoginScreenState extends State<SocialLoginScreen> {
               width: 1.sw,
             ),
             SizedBox(height: 26.h),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomElevatedButtonWithIcon(
-                    text: "Continue with Email",
-                    isExpanded: true,
-                    backgroundColor: AppColors.brandPrimaryDefault,
-                    borderRadius: BorderRadiusStyle.roundedBorder16,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-                    textStyle:
-                        AppStyle.s18medium.copyWith(color: AppColors.white),
-                    onTap: () {},
-                    prefixWidget: Padding(
-                      padding: EdgeInsets.only(right: 8.w),
-                      child: Icon(
-                        Icons.mail,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.h),
-            Row(
-              children: [
-                Expanded(child: Divider(color: AppColors.neutralSecondary)),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: CustomText(
-                    "or continue with",
-                    style: AppStyle.s12medium
-                        .copyWith(color: AppColors.neutralSecondary),
-                  ),
-                ),
-                Expanded(child: Divider(color: AppColors.neutralSecondary))
-              ],
-            ),
-            SizedBox(height: 16.h),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: CustomElevatedButtonWithIcon(
+            //         text: "Continue with Email",
+            //         isExpanded: true,
+            //         backgroundColor: AppColors.brandPrimaryDefault,
+            //         borderRadius: BorderRadiusStyle.roundedBorder16,
+            //         padding:
+            //             EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+            //         textStyle:
+            //             AppStyle.s18medium.copyWith(color: AppColors.white),
+            //         onTap: () {},
+            //         prefixWidget: Padding(
+            //           padding: EdgeInsets.only(right: 8.w),
+            //           child: Icon(
+            //             Icons.mail,
+            //             color: AppColors.white,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 16.h),
+
+            // Row(
+            //   children: [
+            //     Expanded(child: Divider(color: AppColors.neutralSecondary)),
+            //     Padding(
+            //       padding: EdgeInsets.symmetric(horizontal: 16.w),
+            //       child: CustomText(
+            //         "or continue with",
+            //         style: AppStyle.s12medium
+            //             .copyWith(color: AppColors.neutralSecondary),
+            //       ),
+            //     ),
+            //     Expanded(child: Divider(color: AppColors.neutralSecondary))
+            //   ],
+            // ),
+            // SizedBox(height: 16.h),
             Row(children: [
               Expanded(
                 child: Consumer<AuthProvider>(

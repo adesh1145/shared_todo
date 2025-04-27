@@ -106,7 +106,9 @@ class _TodoDetailState extends State<TodoDetail> {
             return Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(
                       Icons.chevron_left,
                       size: 30.r,
@@ -200,10 +202,12 @@ class ShareDialogWidget extends StatefulWidget {
 }
 
 class _ShareDialogWidgetState extends State<ShareDialogWidget> {
+  UserDetail? ownerDetail;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<TodoProvider>(context, listen: false);
+      provider.getOwnerDetail(widget.todo.ownerId);
       provider.getUsersByIds(widget.todo.sharedWith.map((e) => e.uid).toList());
     });
     super.initState();
@@ -308,6 +312,30 @@ class _ShareDialogWidgetState extends State<ShareDialogWidget> {
                   );
                 },
               ),
+              SizedBox(height: 16.h),
+              CustomText("Owner",
+                  style: AppStyle.s18bold
+                      .copyWith(color: AppColors.brandPrimaryDefault)),
+              Consumer<TodoProvider>(builder: (context, provider, child) {
+                return ListTile(
+                  leading: ownerDetail?.photoUrl == null
+                      ? CircleAvatar(
+                          radius: 20.r,
+                          child: Text(ownerDetail?.name?.substring(0, 1) ?? ''),
+                        )
+                      : CustomImageView(
+                          height: 40.h,
+                          width: 40.w,
+                          radius: BorderRadius.circular(20.r),
+                          url: ownerDetail?.photoUrl,
+                        ),
+                  title: Text(ownerDetail?.name ?? ''),
+                  subtitle: Text(ownerDetail?.email ?? ''),
+                );
+              }),
+              CustomText("Shared With",
+                  style: AppStyle.s18bold
+                      .copyWith(color: AppColors.brandPrimaryDefault)),
               Consumer<TodoProvider>(builder: (context, provider, child) {
                 return ListView.builder(
                   shrinkWrap: true,

@@ -13,8 +13,19 @@ class TodoRepository {
     return _firestore
         .collection('todos')
         .where('ownerId', isEqualTo: userId)
+        .snapshots()
+        .map((todosQuerySnapshot) {
+      return todosQuerySnapshot.docs.map((doc) {
+        final data = doc.data();
+        return Todo.fromJson(data);
+      }).toList();
+    });
+  }
+
+  Stream<List<Todo>> getSharedTodosRealTime(String userId) {
+    return _firestore
+        .collection('todos')
         .where('sharedWith', arrayContains: userId)
-        .orderBy('timestamp', descending: true)
         .snapshots()
         .map((todosQuerySnapshot) {
       return todosQuerySnapshot.docs.map((doc) {

@@ -19,7 +19,7 @@ mixin _$Todo {
   String get title;
   String get description;
   String get ownerId;
-  List<SharedWithUser> get sharedWith;
+  List<String> get sharedWith;
   @JsonKey(
       fromJson: TimestampConverter.fromJson, toJson: TimestampConverter.toJson)
   Timestamp? get timestamp;
@@ -71,7 +71,7 @@ abstract mixin class $TodoCopyWith<$Res> {
       String title,
       String description,
       String ownerId,
-      List<SharedWithUser> sharedWith,
+      List<String> sharedWith,
       @JsonKey(
           fromJson: TimestampConverter.fromJson,
           toJson: TimestampConverter.toJson)
@@ -117,7 +117,7 @@ class _$TodoCopyWithImpl<$Res> implements $TodoCopyWith<$Res> {
       sharedWith: null == sharedWith
           ? _self.sharedWith
           : sharedWith // ignore: cast_nullable_to_non_nullable
-              as List<SharedWithUser>,
+              as List<String>,
       timestamp: freezed == timestamp
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -134,7 +134,7 @@ class _Todo implements Todo {
       this.title = '',
       this.description = '',
       this.ownerId = '',
-      final List<SharedWithUser> sharedWith = const [],
+      final List<String> sharedWith = const [],
       @JsonKey(
           fromJson: TimestampConverter.fromJson,
           toJson: TimestampConverter.toJson)
@@ -154,10 +154,10 @@ class _Todo implements Todo {
   @override
   @JsonKey()
   final String ownerId;
-  final List<SharedWithUser> _sharedWith;
+  final List<String> _sharedWith;
   @override
   @JsonKey()
-  List<SharedWithUser> get sharedWith {
+  List<String> get sharedWith {
     if (_sharedWith is EqualUnmodifiableListView) return _sharedWith;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_sharedWith);
@@ -221,7 +221,7 @@ abstract mixin class _$TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
       String title,
       String description,
       String ownerId,
-      List<SharedWithUser> sharedWith,
+      List<String> sharedWith,
       @JsonKey(
           fromJson: TimestampConverter.fromJson,
           toJson: TimestampConverter.toJson)
@@ -267,174 +267,11 @@ class __$TodoCopyWithImpl<$Res> implements _$TodoCopyWith<$Res> {
       sharedWith: null == sharedWith
           ? _self._sharedWith
           : sharedWith // ignore: cast_nullable_to_non_nullable
-              as List<SharedWithUser>,
+              as List<String>,
       timestamp: freezed == timestamp
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as Timestamp?,
-    ));
-  }
-}
-
-/// @nodoc
-mixin _$SharedWithUser {
-  String get uid;
-  String get permission;
-
-  /// Create a copy of SharedWithUser
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $SharedWithUserCopyWith<SharedWithUser> get copyWith =>
-      _$SharedWithUserCopyWithImpl<SharedWithUser>(
-          this as SharedWithUser, _$identity);
-
-  /// Serializes this SharedWithUser to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is SharedWithUser &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.permission, permission) ||
-                other.permission == permission));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, uid, permission);
-
-  @override
-  String toString() {
-    return 'SharedWithUser(uid: $uid, permission: $permission)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $SharedWithUserCopyWith<$Res> {
-  factory $SharedWithUserCopyWith(
-          SharedWithUser value, $Res Function(SharedWithUser) _then) =
-      _$SharedWithUserCopyWithImpl;
-  @useResult
-  $Res call({String uid, String permission});
-}
-
-/// @nodoc
-class _$SharedWithUserCopyWithImpl<$Res>
-    implements $SharedWithUserCopyWith<$Res> {
-  _$SharedWithUserCopyWithImpl(this._self, this._then);
-
-  final SharedWithUser _self;
-  final $Res Function(SharedWithUser) _then;
-
-  /// Create a copy of SharedWithUser
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? uid = null,
-    Object? permission = null,
-  }) {
-    return _then(_self.copyWith(
-      uid: null == uid
-          ? _self.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      permission: null == permission
-          ? _self.permission
-          : permission // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _SharedWithUser implements SharedWithUser {
-  const _SharedWithUser({this.uid = '', this.permission = ''});
-  factory _SharedWithUser.fromJson(Map<String, dynamic> json) =>
-      _$SharedWithUserFromJson(json);
-
-  @override
-  @JsonKey()
-  final String uid;
-  @override
-  @JsonKey()
-  final String permission;
-
-  /// Create a copy of SharedWithUser
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$SharedWithUserCopyWith<_SharedWithUser> get copyWith =>
-      __$SharedWithUserCopyWithImpl<_SharedWithUser>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$SharedWithUserToJson(
-      this,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _SharedWithUser &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.permission, permission) ||
-                other.permission == permission));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, uid, permission);
-
-  @override
-  String toString() {
-    return 'SharedWithUser(uid: $uid, permission: $permission)';
-  }
-}
-
-/// @nodoc
-abstract mixin class _$SharedWithUserCopyWith<$Res>
-    implements $SharedWithUserCopyWith<$Res> {
-  factory _$SharedWithUserCopyWith(
-          _SharedWithUser value, $Res Function(_SharedWithUser) _then) =
-      __$SharedWithUserCopyWithImpl;
-  @override
-  @useResult
-  $Res call({String uid, String permission});
-}
-
-/// @nodoc
-class __$SharedWithUserCopyWithImpl<$Res>
-    implements _$SharedWithUserCopyWith<$Res> {
-  __$SharedWithUserCopyWithImpl(this._self, this._then);
-
-  final _SharedWithUser _self;
-  final $Res Function(_SharedWithUser) _then;
-
-  /// Create a copy of SharedWithUser
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? uid = null,
-    Object? permission = null,
-  }) {
-    return _then(_SharedWithUser(
-      uid: null == uid
-          ? _self.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      permission: null == permission
-          ? _self.permission
-          : permission // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }

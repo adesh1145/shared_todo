@@ -208,7 +208,7 @@ class _ShareDialogWidgetState extends State<ShareDialogWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<TodoProvider>(context, listen: false);
       provider.getOwnerDetail(widget.todo.ownerId);
-      provider.getUsersByIds(widget.todo.sharedWith.map((e) => e.uid).toList());
+      provider.getUsersByIds(widget.todo.sharedWith);
     });
     super.initState();
   }
@@ -261,7 +261,7 @@ class _ShareDialogWidgetState extends State<ShareDialogWidget> {
                 onSelected: (UserDetail selection) {
                   final provider =
                       Provider.of<TodoProvider>(context, listen: false);
-                  provider.shareTodo(widget.todo.todoId, selection, "write");
+                  provider.shareTodo(widget.todo.todoId, selection);
                 },
                 fieldViewBuilder: (BuildContext context,
                     TextEditingController textEditingController,

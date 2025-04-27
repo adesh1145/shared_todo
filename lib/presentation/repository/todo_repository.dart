@@ -141,8 +141,7 @@ class TodoRepository {
     }
   }
 
-  Future<Either<String, String>> shareTodo(
-      String todoId, String userId, String permission) async {
+  Future<Either<String, String>> shareTodo(String todoId, String userId) async {
     try {
       final todoRef = _firestore.collection('todos').doc(todoId);
       final todoDocSnapshot = await todoRef.get();
@@ -153,21 +152,20 @@ class TodoRepository {
 
       final todoData = todoDocSnapshot.data()!;
       final todo = Todo.fromJson(todoData);
-      final sharedWith = List<SharedWithUser>.from(todo.sharedWith ?? []);
+      final sharedWith = List<String>.from(todo.sharedWith ?? []);
 
       final existingShare = sharedWith.firstWhere(
-        (user) => user.uid == userId,
-        orElse: () => SharedWithUser(uid: '', permission: ''),
+        (user) => user == userId,
+        orElse: () => '',
       );
 
-      if (existingShare.uid.isNotEmpty) {
+      if (existingShare.isNotEmpty) {
         return Left("User is already shared with this todo");
       }
 
       // Add user to sharedWith as a SharedWithUser object
-      sharedWith.add(SharedWithUser(uid: userId, permission: permission));
-      await todoRef
-          .update({'sharedWith': sharedWith.map((e) => e.toJson()).toList()});
+      sharedWith.add(userId);
+      await todoRef.update({'sharedWith': sharedWith});
 
       return Right("Todo shared successfully");
     } catch (e) {
@@ -188,21 +186,20 @@ class TodoRepository {
 
       final todoData = todoDocSnapshot.data()!;
       final todo = Todo.fromJson(todoData);
-      final sharedWith = List<SharedWithUser>.from(todo.sharedWith ?? []);
+      final sharedWith = List<String>.from(todo.sharedWith ?? []);
 
       final existingShare = sharedWith.firstWhere(
-        (user) => user.uid == userId,
-        orElse: () => SharedWithUser(uid: '', permission: ''),
+        (user) => user == userId,
+        orElse: () => '',
       );
 
-      if (existingShare.uid.isEmpty) {
+      if (existingShare.isEmpty) {
         return Left("User is not shared with this todo");
       }
 
       // Remove user from sharedWith
-      sharedWith.removeWhere((user) => user.uid == userId);
-      await todoRef
-          .update({'sharedWith': sharedWith.map((e) => e.toJson()).toList()});
+      sharedWith.removeWhere((user) => user == userId);
+      await todoRef.update({'sharedWith': sharedWith});
 
       return Right(null);
     } catch (e) {

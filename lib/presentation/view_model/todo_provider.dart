@@ -107,15 +107,13 @@ class TodoProvider extends ChangeNotifier {
   }
 
   Future<Either<String, void>> shareTodo(
-      String todoId, UserDetail userDetail, String permission) async {
+      String todoId, UserDetail userDetail) async {
     if (sharedUsers.contains(userDetail)) {
       return Right(null);
     }
     sharedUsers.add(userDetail);
     setLoading(true);
-    return _todoRepository
-        .shareTodo(todoId, userDetail.uid!, permission)
-        .then((result) {
+    return _todoRepository.shareTodo(todoId, userDetail.uid!).then((result) {
       return result.fold((l) {
         setLoading(false);
         return Left(l);
@@ -150,6 +148,7 @@ class TodoProvider extends ChangeNotifier {
         return Left(l);
       }, (r) {
         ownerDetail = r[0];
+        notifyListeners();
         return Right(r[0]);
       });
     });

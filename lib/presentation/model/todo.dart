@@ -26,7 +26,7 @@ abstract class Todo with _$Todo {
     @Default('') String title,
     @Default('') String description,
     @Default('') String ownerId,
-    @Default([]) List<SharedWithUser> sharedWith,
+    @Default([]) List<String> sharedWith,
     @JsonKey(
         fromJson: TimestampConverter.fromJson,
         toJson: TimestampConverter.toJson)
@@ -34,15 +34,4 @@ abstract class Todo with _$Todo {
   }) = _Todo;
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
-}
-
-@freezed
-abstract class SharedWithUser with _$SharedWithUser {
-  const factory SharedWithUser({
-    @Default('') String uid,
-    @Default('') String permission,
-  }) = _SharedWithUser;
-
-  factory SharedWithUser.fromJson(Map<String, dynamic> json) =>
-      _$SharedWithUserFromJson(json);
 }

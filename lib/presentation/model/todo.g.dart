@@ -12,7 +12,7 @@ _Todo _$TodoFromJson(Map<String, dynamic> json) => _Todo(
       description: json['description'] as String? ?? '',
       ownerId: json['ownerId'] as String? ?? '',
       sharedWith: (json['sharedWith'] as List<dynamic>?)
-              ?.map((e) => SharedWithUser.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => e as String)
               .toList() ??
           const [],
       timestamp: TimestampConverter.fromJson(json['timestamp']),
@@ -25,16 +25,4 @@ Map<String, dynamic> _$TodoToJson(_Todo instance) => <String, dynamic>{
       'ownerId': instance.ownerId,
       'sharedWith': instance.sharedWith,
       'timestamp': TimestampConverter.toJson(instance.timestamp),
-    };
-
-_SharedWithUser _$SharedWithUserFromJson(Map<String, dynamic> json) =>
-    _SharedWithUser(
-      uid: json['uid'] as String? ?? '',
-      permission: json['permission'] as String? ?? '',
-    );
-
-Map<String, dynamic> _$SharedWithUserToJson(_SharedWithUser instance) =>
-    <String, dynamic>{
-      'uid': instance.uid,
-      'permission': instance.permission,
     };

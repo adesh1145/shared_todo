@@ -42,9 +42,19 @@ jobs:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
+      - name: Install yq to extract version
+        run: sudo apt-get install -y jq yq
+
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          VERSION=$(yq eval '.version' pubspec.yaml)
+          echo "Version extracted: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Create Git tag
         run: |
-          TAG_NAME="v$(date +'%Y%m%d%H%M%S')" # Create a unique version tag based on timestamp
+          TAG_NAME="v${{ env.VERSION }}" # Use the extracted version as the tag
           git tag $TAG_NAME
           git push origin $TAG_NAME
 

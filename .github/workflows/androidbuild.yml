@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    # Optionally, you can add a tag-based trigger here
-    # For example, push a version tag like v1.0.0
-    # tags:
-    #   - 'v*'
 
 jobs:
   build:
@@ -25,14 +21,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Skip analysis step
-      # - name: Analyze
-      #   run: flutter analyze
-
-      # Skip tests step
-      # - name: Run Tests
-      #   run: flutter test
-
       - name: Build APK
         run: flutter build apk --release
 
@@ -42,14 +30,17 @@ jobs:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Install yq to extract version
-        run: sudo apt-get install -y jq yq
+      - name: Install yq and jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq yq
+          yq --version  # Check if yq installed correctly
 
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
-          VERSION=$(yq eval '.version' pubspec.yaml)
-          APP_NAME=$(yq eval '.name' pubspec.yaml)
+          VERSION=$(yq eval '.version' ./pubspec.yaml)
+          APP_NAME=$(yq eval '.name' ./pubspec.yaml)
           echo "Version extracted: $VERSION"
           echo "App name extracted: $APP_NAME"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
@@ -64,7 +55,7 @@ jobs:
       - name: Wait for Git tag to be pushed
         run: |
           echo "Waiting for Git tag to be pushed to the repository..."
-          sleep 10  # Add a small wait time for the tag to propagate
+          sleep 10  # Wait time for tag to propagate
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -72,8 +63,6 @@ jobs:
           files: build/app/outputs/flutter-apk/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # We will pass the release name in the GitHub release body
-        # So, we use the default release name (version) and update the body with app name and version
-          run: |
-            RELEASE_NAME="${{ env.APP_NAME }} v${{ env.VERSION }}"
-            gh release create v${{ env.VERSION }} build/app/outputs/flutter-apk/app-release.apk --title "$RELEASE_NAME" --notes "Release notes for version $RELEASE_NAME"
+        run: |
+          RELEASE_NAME="${{ env.APP_NAME }} v${{ env.VERSION }}"
+          gh release create v${{ env.VERSION }} build/app/outputs/flutter-apk/app-release.apk --title "$RELEASE_NAME" --notes "Release notes for version $RELEASE_NAME"

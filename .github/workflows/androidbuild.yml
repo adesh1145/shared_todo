@@ -44,9 +44,14 @@ jobs:
 
       - name: Create Git tag
         run: |
-          git tag v$(date +'%Y%m%d%H%M%S') # Create a unique version tag based on timestamp
-          git push origin v$(date +'%Y%m%d%H%M%S')
+          TAG_NAME="v$(date +'%Y%m%d%H%M%S')" # Create a unique version tag based on timestamp
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
 
+      - name: Wait for Git tag to be pushed
+        run: |
+          echo "Waiting for Git tag to be pushed to the repository..."
+          sleep 10  # Add a small wait time for the tag to propagate
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1

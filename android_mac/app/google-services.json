@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "490046397624",
+    "project_id": "shared-todo-769f5",
+    "storage_bucket": "shared-todo-769f5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490046397624:android:dc6677fb88ba12ca1de84d",
+        "android_client_info": {
+          "package_name": "com.example.shareed_todo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKKTm7STOhabSiKXVoA8xG5WZXIvyaVkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

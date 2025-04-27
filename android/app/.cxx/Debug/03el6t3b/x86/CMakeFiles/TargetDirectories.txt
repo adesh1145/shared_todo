@@ -1,0 +1,2 @@
+C:/Users/Adesh Yadav/Desktop/shared_todo/android/app/.cxx/Debug/03el6t3b/x86/CMakeFiles/edit_cache.dir
+C:/Users/Adesh Yadav/Desktop/shared_todo/android/app/.cxx/Debug/03el6t3b/x86/CMakeFiles/rebuild_cache.dir

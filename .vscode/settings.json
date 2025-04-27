@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "lib/presentation"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
+}

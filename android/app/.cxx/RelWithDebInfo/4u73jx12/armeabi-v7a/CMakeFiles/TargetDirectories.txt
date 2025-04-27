@@ -1,0 +1,2 @@
+C:/Users/Adesh Yadav/Desktop/shared_todo3/android/app/.cxx/RelWithDebInfo/4u73jx12/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Adesh Yadav/Desktop/shared_todo3/android/app/.cxx/RelWithDebInfo/4u73jx12/armeabi-v7a/CMakeFiles/rebuild_cache.dir

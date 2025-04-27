@@ -1,0 +1,5 @@
+package com.example.shareed_todo
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity()

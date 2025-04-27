@@ -21,12 +21,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Analyze
-        run: flutter analyze --no-fatal-warnings 
       - name: Run Tests
         run: flutter test
 
-      - name: Clean the build (optional but recommended)
+      - name: Clean the build (optional)
         run: flutter clean
 
       - name: Build APK

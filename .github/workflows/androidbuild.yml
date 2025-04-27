@@ -49,8 +49,11 @@ jobs:
         id: extract_version
         run: |
           VERSION=$(yq eval '.version' pubspec.yaml)
+          APP_NAME=$(yq eval '.name' pubspec.yaml)
           echo "Version extracted: $VERSION"
+          echo "App name extracted: $APP_NAME"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
 
       - name: Create Git tag
         run: |
@@ -69,3 +72,8 @@ jobs:
           files: build/app/outputs/flutter-apk/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # We will pass the release name in the GitHub release body
+        # So, we use the default release name (version) and update the body with app name and version
+          run: |
+            RELEASE_NAME="${{ env.APP_NAME }} v${{ env.VERSION }}"
+            gh release create v${{ env.VERSION }} build/app/outputs/flutter-apk/app-release.apk --title "$RELEASE_NAME" --notes "Release notes for version $RELEASE_NAME"

@@ -41,12 +41,12 @@ flutter:
   fonts:
     - family: SFProDisplay
       fonts:
-        - asset: assets/fonts/SFProDisplayBlackItalic.otf
-        - asset: assets/fonts/SFProDisplayLightItalic.otf
-        - asset: assets/fonts/SFProDisplaySemiBoldItalic.otf
-        - asset: assets/fonts/SFProDisplayBold.otf
-        - asset: assets/fonts/SFProDisplayMedium.otf
-        - asset: assets/fonts/SFProDisplayThinItalic.otf
-        - asset: assets/fonts/SFProDisplayHeavyItalic.otf
-        - asset: assets/fonts/SFProDisplayRegular.otf
-        - asset: assets/fonts/SFProDisplayUltraLightItalic.otf
+        - asset: assets/fonts/SFPRODISPLAYBLACKITALIC.OTF
+        - asset: assets/fonts/SFPRODISPLAYLIGHTITALIC.OTF
+        - asset: assets/fonts/SFPRODISPLAYSEMIBOLDITALIC.OTF
+        - asset: assets/fonts/SFPRODISPLAYBOLD.OTF
+        - asset: assets/fonts/SFPRODISPLAYMEDIUM.OTF
+        - asset: assets/fonts/SFPRODISPLAYTHINITALIC.OTF
+        - asset: assets/fonts/SFPRODISPLAYHEAVYITALIC.OTF
+        - asset: assets/fonts/SFPRODISPLAYREGULAR.OTF
+        - asset: assets/fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF

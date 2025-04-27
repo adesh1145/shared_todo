@@ -4,65 +4,63 @@ on:
   push:
     branches:
       - main
+    # Optionally, you can add a tag-based trigger here
+    # For example, push a version tag like v1.0.0
+    # tags:
+    #   - 'v*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: flutter-actions/setup-flutter@v2
         with:
           channel: stable
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
+      # Step 4: Install yq for extracting version
+      - name: Install yq to extract version
+        run: |
+          sudo apt-get install -y jq
+          curl -s https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_linux_amd64 -o /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+
+      # Step 5: Extract version and app name from pubspec.yaml
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          VERSION=$(yq e '.version' pubspec.yaml)
+          APP_NAME=$(yq e '.name' pubspec.yaml)
+          echo "Version extracted: $VERSION"
+          echo "App name extracted: $APP_NAME"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+
+      # Step 6: Build APK
       - name: Build APK
         run: flutter build apk --release
 
+      # Step 7: Upload APK as artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Install yq and jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq yq
-          yq --version  # Check if yq installed correctly
-
-      - name: Extract version from pubspec.yaml
-        id: extract_version
-        run: |
-          VERSION=$(yq eval '.version' ./pubspec.yaml)
-          APP_NAME=$(yq eval '.name' ./pubspec.yaml)
-          echo "Version extracted: $VERSION"
-          echo "App name extracted: $APP_NAME"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-
+      # Step 8: Create a Git tag and release
       - name: Create Git tag
-        run: |
-          TAG_NAME="v${{ env.VERSION }}" # Use the extracted version as the tag
-          git tag $TAG_NAME
-          git push origin $TAG_NAME
-
-      - name: Wait for Git tag to be pushed
-        run: |
-          echo "Waiting for Git tag to be pushed to the repository..."
-          sleep 10  # Wait time for tag to propagate
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: build/app/outputs/flutter-apk/app-release.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           RELEASE_NAME="${{ env.APP_NAME }} v${{ env.VERSION }}"
           gh release create v${{ env.VERSION }} build/app/outputs/flutter-apk/app-release.apk --title "$RELEASE_NAME" --notes "Release notes for version $RELEASE_NAME"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
